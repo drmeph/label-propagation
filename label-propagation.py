@@ -1,7 +1,9 @@
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 
-print("Start Label Propagation!")
+print("Starting Dataset Creation!")
 
 # define dataset
 X, y = make_classification(n_samples=1000, n_features=2, n_informative=2, n_redundant=0, random_state=1)
@@ -17,3 +19,16 @@ print('Labeled Train Set:', X_train_lab.shape, y_train_lab.shape)
 print('Unlabeled Train Set:', X_test_unlab.shape, y_test_unlab.shape)
 # summarize test set size
 print('Test Set:', X_test.shape, y_test.shape)
+
+
+# define model
+model = LogisticRegression()
+# fit model on labeled dataset
+model.fit(X_train_lab, y_train_lab)
+
+# make predictions on hold out test set
+yhat = model.predict(X_test)
+# calculate score for test set
+score = accuracy_score(y_test, yhat)
+# summarize score
+print('Accuracy: %.3f' % (score*100))
